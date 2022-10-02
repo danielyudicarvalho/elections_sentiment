@@ -1,0 +1,9 @@
+streamlit==1.13.0
+joblib==1.2.0
+spacy==3.4.1
+pandas==1.0.3
+pymongo==4.2.0
+sentence-transformers==2.2.2
+snscrape
+numpy==1.20.3
+plotly==5.3.1

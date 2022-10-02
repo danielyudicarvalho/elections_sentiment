@@ -1,0 +1,44 @@
+version: "3"
+networks:
+  app:
+    driver: bridge
+    name: app
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongodb:/data/db
+    networks:
+      - app
+
+  streamlit:
+    container_name: streamlit
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+      #target: streamlit
+    ports:
+      - 8501:8501
+    depends_on:
+      - mongo
+      - etl
+    networks:
+      - app
+    environment:
+      - "MONGODB_URI=mongodb://localhost:27017/twitter"
+
+  etl:
+    container_name: etl
+    build:
+      context: .
+      dockerfile: docker/etl.Dockerfile
+    networks:
+      - app
+    environment:
+      - "MONGODB_URI=mongodb://localhost:27017/twitter"
+
+  
